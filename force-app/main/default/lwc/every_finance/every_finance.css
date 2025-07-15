@@ -1,0 +1,26 @@
+.custom-tabset{
+    --slds-c-tabs-item-color-border-active: #BE3838;
+    --slds-c-tabs-item-color-border-hover: #BE3838;
+    --slds-c-tabs-item-sizing-height: 3.0rem;
+    --slds-c-tabs-list-sizing-border: 1px;
+}
+
+.ErrorImage{
+    display: flex;
+    justify-content: center;
+    height: 130px;
+}
+
+.ErrorMenssage{
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    color: bold;
+    margin-top: 5px;
+}
+
+.ativocantrato{
+    list-style-type: disc;
+    padding: revert-layer;
+    margin: revert-layer;
+}

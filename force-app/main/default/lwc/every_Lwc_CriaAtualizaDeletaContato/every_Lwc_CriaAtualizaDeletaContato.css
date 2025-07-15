@@ -1,0 +1,60 @@
+.slds-icon {
+    fill: #999;
+    cursor: pointer; 
+}
+.posicaoIcon {
+    margin: 7px;
+}
+
+.slds-align_absolute-center {
+    display: flex;
+    align-items: center;
+}
+
+.slds-align-middle lightning-icon {
+    margin-right: 0.5rem;
+    fill: #666; 
+}
+
+.slds-card {
+    margin: 20px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.stiloemail {
+    padding: 11px;
+}
+
+lightning-input {
+    width: 100%;
+}
+
+span {
+    font-weight: bold; 
+}
+.myspan {
+    margin-bottom: 12px; 
+}
+.mensagem-alterada {
+    color: #ba0517;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";;
+}
+.mensagem-sucesso {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";;
+    color: green;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+lightning-button ~ lightning-button{
+    padding-left: 10px;
+}
+
+.font-medium {
+    font-size: medium;
+    padding: 20px;
+}

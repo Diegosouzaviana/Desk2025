@@ -1,0 +1,67 @@
+<template>
+  <lightning-card class="slds-grid_align-center slds-grid_vertical-align-center">
+    <template lwc:if={erroAtivoContrato}>
+      <p style="font-size: 20px;"><strong>Erro</strong></p>
+      <div class="ErrorImage">
+        <img src="/resource/1663183427000/icon_sideBar/Datos_360/IconError.png" />
+      </div>
+      <div class="ErrorMenssage">
+        <strong>
+          <p>Erro no Caso</p>
+        </strong>
+      </div>
+      <p>Não é possivel prosseguir sem:</p>
+      <ul class="ativocantrato">
+        <li if:true={erroAtivo}><strong>
+            <p>Ativo</p>
+          </strong></li>
+        <li if:true={erroContrato}><strong>
+            <p>Contrato</p>
+          </strong></li>
+      </ul>
+    </template>
+    <template lwc:else>
+      <lightning-tabset class="custom-tabset">
+
+        <template if:true={showPosicaoFinanceira}>
+          <lightning-tab label="Posição Financeira" icon-name="utility:money">
+            <c-cf-f-l-x_-list-of-bills-1-2-months parent-attribute={jsoncase}></c-cf-f-l-x_-list-of-bills-1-2-months>
+          </lightning-tab>
+        </template>
+
+        <template if:true={showPendenciasFinanceiras}>
+          <lightning-tab label="Pendências Financeiras" icon-name="utility:moneybag">
+            <c-every_-financial-issues-service asset-id={assetId}
+              ppoe-user={ppoeUser}></c-every_-financial-issues-service>
+          </lightning-tab>
+        </template>
+
+        <template if:true={showAlteracaoVencimento}>
+          <lightning-tab label="Alteração de Vencimento" icon-name="utility:monthlyview">
+            <c-o-s-due-date-portuguese-brazil record-id={ContextId}
+              layout="lightning"></c-o-s-due-date-portuguese-brazil>
+          </lightning-tab>
+        </template>
+
+        <template if:true={showDescontos}>
+          <lightning-tab label="Descontos" icon-name="utility:discounts">
+            <c-cf-every_-f-lex-desconto-fatura record-id={caseId}
+              layout="lightning"></c-cf-every_-f-lex-desconto-fatura>
+          </lightning-tab>
+        </template>
+        <!-- <lightning-tab label="Posição Financeira" icon-name="utility:money">
+            <c-cf-f-l-x_-list-of-bills-1-2-months parent-attribute={jsoncase}></c-cf-f-l-x_-list-of-bills-1-2-months>
+          </lightning-tab>
+          <lightning-tab label="Pendências Financeiras" icon-name="utility:moneybag">
+          <c-every_-financial-issues-service asset-id={assetId} ppoe-user={ppoeUser}></c-every_-financial-issues-service>
+          </lightning-tab>
+          <lightning-tab label="Alterar Vencimento" icon-name="utility:monthlyview">
+            <c-o-s-due-date-portuguese-brazil record-id={ContextId} layout="lightning"></c-o-s-due-date-portuguese-brazil>
+          </lightning-tab>
+          <lightning-tab label="Descontos" icon-name="utility:discounts">
+            <c-cf-every_-f-lex-desconto-fatura record-id={caseId} layout="lightning"></c-cf-every_-f-lex-desconto-fatura>
+          </lightning-tab> -->
+      </lightning-tabset>
+    </template>
+  </lightning-card>
+</template>

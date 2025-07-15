@@ -1,0 +1,203 @@
+<template>
+    <lightning-card>
+        <div class="slds-card__body">
+            <div class="slds-box">
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={contIndex} for:item="phone" for:index="index">
+                        <div key={phone.index} class="slds-col slds-size_1-of-2 stiloemail">
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-1 myspan">
+                                    <span>Telefone {phone.index}</span>
+                                </div>
+                                <div class="slds-col slds-size_3-of-4">
+                                    <lightning-input 
+                                        type="tel" 
+                                        variant="label-hidden" 
+                                        pattern="[0-9]*" 
+                                        minlength="10"
+                                        maxlength="11" 
+                                        value={phone.phone} 
+                                        onchange={handlePhoneChange} 
+                                        data-index={phone.index} 
+                                        message-when-too-short="O telefone deve ter pelo menos 10 dígitos.">
+                                    </lightning-input>
+                                    <span if:true={phone.mostrarMensagem} class={phone.mensagemClasse}>
+                                        {phone.mensagemPersonalizada}
+                                    </span>
+                                </div>                               
+                                <div class="slds-col slds-size_1-of-4">
+                                    <!-- Seus ícones ou campos adicionais aqui -->
+                                    <div class="slds-grid slds-align-middle posicaoIcon">
+                                        <lightning-icon if:true={phone.isNew} icon-name="utility:add"
+                                            alternative-text="save" class="slds-m-right_small" title="Criar novo Telefone"
+                                            size="x-small" onclick={confimarnovoPhone} data-phone={phone.phone}
+                                            data-index={phone.index}>
+                                        </lightning-icon>
+                                        <lightning-icon if:false={phone.isNew} icon-name="utility:save"
+                                            alternative-text="Editar" class="slds-m-right_small"
+                                            title="Salvar alteração do Telefone" size="x-small" onclick={confirmaAtualiza}
+                                            data-phone={phone.phone} data-index={phone.index}>
+                                        </lightning-icon>
+                                        <lightning-icon icon-name="utility:delete" alternative-text="Delete"
+                                            title="Deletar Telefone" size="x-small" onclick={confirmDelete}
+                                            data-phone={phone.phone} data-index={phone.index} class={phone.deleteClass}>
+                                        </lightning-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div if:true={QuantIndex} class="slds-m-top_medium">
+                    <lightning-button variant="brand" label="Adicionar telefone" title="Adicionar telefone"
+                        onclick={addPhone} disabled={isPhoneLimitReached}>
+                    </lightning-button>
+                </div>
+            </div>
+            
+            <br/>
+            <div class="slds-box">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_2-of-4 stiloemail">
+                            <div class="myspan">
+                                <span>E-mail 1</span>  
+                            </div>           
+                            <lightning-input
+                                type="email"
+                                variant="label-hidden"
+                                value={obj.old_email1}
+                                data-fieldname="old_email1"
+                                onchange={handleEmailChange}
+                            ></lightning-input>
+                            <div class={errormsg}>{emailErrors.old_email1}</div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-4 stiloemail">
+                            <div class="myspan">
+                                <span>E-mail 2</span>  
+                            </div>  
+                            <lightning-input
+                                type="email"
+                                variant="label-hidden"
+                                value={obj.old_email2}
+                                data-fieldname="old_email2"
+                                onchange={handleEmailChange}
+                            ></lightning-input>
+                            <div class={errormsg}>{emailErrors.old_email2}</div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-4 stiloemail">
+                            <div class="myspan">
+                                <span>E-mail 3</span>  
+                            </div>  
+                            <lightning-input
+                                type="email"
+                                variant="label-hidden"
+                                value={obj.old_email3}
+                                data-fieldname="old_email3"
+                                onchange={handleEmailChange}
+                            ></lightning-input>
+                            <div class={errormsg}>{emailErrors.old_email3}</div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-4 stiloemail">
+                            <div class="myspan">
+                                <span>E-mail 4</span>  
+                            </div>  
+                            <lightning-input
+                                type="email"
+                                variant="label-hidden"
+                                value={obj.old_email4}
+                                data-fieldname="old_email4"
+                                onchange={handleEmailChange}
+                            ></lightning-input>
+                            <div class={errormsg}>{emailErrors.old_email4}</div>
+                        </div>
+                    </div>
+                    <div class="slds-m-top_medium">
+                        <lightning-button variant="brand" label="Atualizar email" title="Atualizar email"
+                        onclick={confirmaAlteraEmail} disabled={desabilitasbutton} >
+                        </lightning-button>
+                    </div>
+            </div>
+        </div>
+    </lightning-card>
+    <template if:true={showModal}>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <div role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium">Confirmação</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_small" id="modal-content-id-1">
+                    <p class="font-medium">Tem certeza que deseja deletar o telefone?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancelar"
+                        onclick={closeModal}></lightning-button>
+                    <lightning-button variant="destructive" label="Deletar"
+                        onclick={deleteConfirmed}></lightning-button>
+                </footer>
+            </div>
+        </div>
+    </template>
+    <template if:true={showModal1}>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <div role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium">Confirmação</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_small" id="modal-content-id-2">
+                    <p class="font-medium">Tem certeza que deseja atualizar o telefone?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancelar"
+                        onclick={closeModal}></lightning-button>
+                    <lightning-button variant="destructive" label="Atualizar"
+                        onclick={updatePhone}></lightning-button>
+                </footer>
+            </div>
+        </div>
+    </template>
+    <template if:true={showModal2}>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <div role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium">Confirmação</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_small" id="modal-content-id-3">
+                    <p class="font-medium">Tem certeza que deseja adicionar o novo telefone?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancelar"
+                        onclick={closeModal}></lightning-button>
+                    <lightning-button variant="destructive" label="Novo Contato"
+                        onclick={novoPhone}></lightning-button>
+                </footer>
+            </div>
+        </div>
+    </template>
+    <template if:true={showModal3}>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <div role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-04" class="slds-text-heading_medium">Confirmação</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_small" id="modal-content-id-5">
+                    <p class="font-medium">Tem certeza que deseja atualizar os endereços de e-mail?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancelar"
+                        onclick={closeModal}></lightning-button>
+                    <lightning-button variant="destructive" label="Confirmar"
+                        onclick={alteraEmail}></lightning-button>
+                </footer>
+            </div>
+        </div>
+    </template>
+
+</template>
