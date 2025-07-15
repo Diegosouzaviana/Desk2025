@@ -136,21 +136,21 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
 
         const telefones = this.oldPhoneNumbers[phoneIndex];
         const currentPhone = this.contIndex[phoneIndex - 1];
-        if (telefones.oldPhone === undefined && telefones.newPhone !== "") { 
+        if (telefones.oldPhone === undefined && telefones.newPhone !== "") {
             currentPhone.mensagemPersonalizada = "Clique em salvar para concluir o processo.";
-            currentPhone.mostrarMensagem = true; 
-            currentPhone.mensagemClasse = "mensagem-alterada"; 
-        } else if (telefones.oldPhone === undefined && telefones.newPhone === "") { 
+            currentPhone.mostrarMensagem = true;
+            currentPhone.mensagemClasse = "mensagem-alterada";
+        } else if (telefones.oldPhone === undefined && telefones.newPhone === "") {
             currentPhone.mensagemPersonalizada = "";
-            currentPhone.mostrarMensagem = false; 
+            currentPhone.mostrarMensagem = false;
             currentPhone.mensagemClasse = "";
-        } else if (telefones.oldPhone !== "" && telefones.newPhone !== telefones.oldPhone) { 
+        } else if (telefones.oldPhone !== "" && telefones.newPhone !== telefones.oldPhone) {
             currentPhone.mensagemPersonalizada = "Clique em salvar para concluir o processo.";
-            currentPhone.mostrarMensagem = true; 
-            currentPhone.mensagemClasse = "mensagem-alterada"; 
+            currentPhone.mostrarMensagem = true;
+            currentPhone.mensagemClasse = "mensagem-alterada";
         } else {
             currentPhone.mensagemPersonalizada = "";
-            currentPhone.mostrarMensagem = false; 
+            currentPhone.mostrarMensagem = false;
             currentPhone.mensagemClasse = "";
         }
     }
@@ -172,7 +172,7 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
         // Verifica se email e diferente do email de origem
         const checkForEmail = this.checkForEmailChanges(fieldName, fieldValue);
         // Atualiza os email novo valor apenas se for válido
-        if(fieldValue == "" || fieldValue == null){
+        if (fieldValue == "" || fieldValue == null) {
             console.log("entrou1");
             this.updateEmailInfo(fieldName, fieldValue, "", "", false);
         }
@@ -209,7 +209,7 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
             const chave = chaves[i];
             const valor = this.copiaOBJ[chave];
             if (valor == fieldValue) {
-                return true; 
+                return true;
             }
         }
         return false;
@@ -221,7 +221,7 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
             const chave = chaves[i];
             const valor = this.emailvalidado[chave];
             if (valor == "false") {
-                return true; 
+                return true;
             }
         }
         return false;
@@ -240,12 +240,12 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
     clearError(fieldName) {
         this.emailErrors[fieldName] = '';
     }
-  
+
     getChangedEmailFields() {
         const changedEmailFields = [];
         const obj = this.obj;
         const copiaobj = this.copiaOBJ;
-    
+
         for (const field in obj) {
             if (field.startsWith("old_email") && obj[field] !== copiaobj[field]) {
                 changedEmailFields.push(field);
@@ -255,16 +255,16 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
     }
 
     updateEmailErrors(changedEmailFields) {
-                
+
         changedEmailFields.forEach(fieldName => {
-            const oldValue = this.obj[fieldName]; 
-            const newValue = this.copiaOBJ[fieldName]; 
-            
+            const oldValue = this.obj[fieldName];
+            const newValue = this.copiaOBJ[fieldName];
+
             if (newValue !== "") {
                 console.log("fieldName", fieldName);
                 this.emailErrors[fieldName] = "O e-mail foi atualizado com sucesso.";
                 this.errormsg = "mensagem-sucesso";
-            }else{
+            } else {
                 console.log("fieldName2", fieldName);
                 this.emailErrors[fieldName] = "O e-mail excluido com sucesso.";
                 this.errormsg = "mensagem-alterada";
@@ -293,14 +293,14 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
             if (this.contIndex.length == 5) {
                 this.QuantIndex = false;
             }
-        } else if (this.contIndex.length <= 1){
-            this.contIndex.forEach( ci => {
+        } else if (this.contIndex.length <= 1) {
+            this.contIndex.forEach(ci => {
                 ci.deleteClass = 'hide';
             })
         }
     }
 
-    cleanErrors(){
+    cleanErrors() {
         this.contIndex.forEach(e => {
             e.mostrarMensagem = false;
             e.mensagemPersonalizada = '';
@@ -328,53 +328,53 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
         let hasSavedPhonesFilled = false;
 
         // não permitir excluir o telefone preenchido caso os outros telefones estejam vazios
-            let anyPhoneFilled = false; // armazena se algum dos telefones (exceto o index atual) está preenchido
-            this.contIndex.forEach(e => {
-                console.log('e -> ' + JSON.stringify(e));
+        let anyPhoneFilled = false; // armazena se algum dos telefones (exceto o index atual) está preenchido
+        this.contIndex.forEach(e => {
+            console.log('e -> ' + JSON.stringify(e));
 
-                if(e.phone && e.phone != '' && e.phone.length >= 10 && e.index != index){
-                    anyPhoneFilled = true;
+            if (e.phone && e.phone != '' && e.phone.length >= 10 && e.index != index) {
+                anyPhoneFilled = true;
+            }
+
+            if (e.phone && e.phone.length >= 10 && index != e.index) {
+                if (!e.isNew) {
+                    hasSavedPhonesFilled = true;
+                    console.log('phone not is new');
+                } else {
+                    console.log('phone is new');
                 }
-
-                if(e.phone && e.phone.length >= 10 && index != e.index){
-                    if(!e.isNew){
-                        hasSavedPhonesFilled = true;
-                        console.log('phone not is new');
-                    } else {
-                        console.log('phone is new');
-                    }
-                }
-                
-            });
-
-            if(!hasSavedPhonesFilled && anyPhoneFilled){
-                this.contIndex[0].mostrarMensagem = true;
-                this.contIndex[0].mensagemPersonalizada = 'Salve os números de telefone pendentes antes de excluir';
-                this.contIndex[0].mensagemClasse = 'mensagem-alterada';
-                return;
             }
-        
-            // se não houver telefones preenchidos, não permitirá excluir o telefone principal
-            if(!anyPhoneFilled){
-                this.contIndex[0].mostrarMensagem = true;
-                this.contIndex[0].mensagemPersonalizada = 'Obrigatório ao menos 1 número de telefone preenchido';
-                this.contIndex[0].mensagemClasse = 'mensagem-alterada';
-                return;
-            }
-            
-            // se os únicos telefones preenchidos ainda não foram salvos, salvará automaticamente para impedir que o usuário se esqueça
-            if(!hasSavedPhonesFilled){
-                this.avisoTelefoneNovoSeraSalvo = true;
-                console.log("os outros telefones não foram salvos, então vamos salvá-los");
-                const index = 1;
-                const phone = this.contIndex[1].phone;
 
-                this.newPhoneNumber = phone;
-                this.phoneIndexToDelete = index;
-            }
+        });
+
+        if (!hasSavedPhonesFilled && anyPhoneFilled) {
+            this.contIndex[0].mostrarMensagem = true;
+            this.contIndex[0].mensagemPersonalizada = 'Salve os números de telefone pendentes antes de excluir';
+            this.contIndex[0].mensagemClasse = 'mensagem-alterada';
+            return;
+        }
+
+        // se não houver telefones preenchidos, não permitirá excluir o telefone principal
+        if (!anyPhoneFilled) {
+            this.contIndex[0].mostrarMensagem = true;
+            this.contIndex[0].mensagemPersonalizada = 'Obrigatório ao menos 1 número de telefone preenchido';
+            this.contIndex[0].mensagemClasse = 'mensagem-alterada';
+            return;
+        }
+
+        // se os únicos telefones preenchidos ainda não foram salvos, salvará automaticamente para impedir que o usuário se esqueça
+        if (!hasSavedPhonesFilled) {
+            this.avisoTelefoneNovoSeraSalvo = true;
+            console.log("os outros telefones não foram salvos, então vamos salvá-los");
+            const index = 1;
+            const phone = this.contIndex[1].phone;
+
+            this.newPhoneNumber = phone;
+            this.phoneIndexToDelete = index;
+        }
 
         // Não deixar excluir o telefone único
-        if(this.contIndex.length <= 1){
+        if (this.contIndex.length <= 1) {
             this.contIndex[0].mostrarMensagem = true;
             this.contIndex[0].mensagemPersonalizada = 'Obrigatório ao menos 1 número de telefone';
             this.contIndex[0].mensagemClasse = 'mensagem-alterada';
@@ -397,7 +397,7 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
         const oldformattedPhone = this.oldPhone ? this.formatPhone(this.oldPhone) : '';
         console.log("Telefone antigo:", oldformattedPhone);
 
-        if(formattedPhone.length < 10){
+        if (formattedPhone.length < 10) {
             this.contIndex[index].mostrarMensagem = true;
             this.contIndex[index].mensagemPersonalizada = 'O telefone deve ter pelo menos 10 dígitos.';
             this.contIndex[index].mensagemClasse = 'mensagem-alterada';
@@ -443,10 +443,10 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
                 .then((data) => {
                     console.log("data " + JSON.stringify(data));
                     if (data?.result?.IPResult?.statuscode == 200) {
-                        this.showModal1 = false; 
+                        this.showModal1 = false;
                         this.mostrarToast(data.result.IPResult.message, 'success');
                         currentPhone.mensagemPersonalizada = "Telefone inserido com sucesso.";
-                        currentPhone.mostrarMensagem = true; 
+                        currentPhone.mostrarMensagem = true;
                         currentPhone.mensagemClasse = "mensagem-sucesso";
                     } else if (data?.result?.IPResult?.result?.statuscode == 400) {
                         this.showModal1 = false;
@@ -474,25 +474,25 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
     }
     async deleteConfirmed() {
         console.log('delete confirmed');
-        
-        this.deleteConfirmedAction(); 
+
+        this.deleteConfirmedAction();
     }
 
-    async deleteConfirmedAction(){
+    async deleteConfirmedAction() {
         let Type = "deleta";
         const phoneIndex = this.phoneIndexToDelete;
         let oldPhoneNumber = this.oldPhoneNumber;
         let isNewOf = this.isNew;
         console.log('is new? ' + this.isNew);
-        
+
 
         if (oldPhoneNumber == null) {
             this.contIndex.splice(phoneIndex - 1, 1);
-            this.showModal = false; 
+            this.showModal = false;
             this.updateIndexes();
         } else if (oldPhoneNumber != null && isNewOf == true) {
             this.contIndex.splice(phoneIndex - 1, 1);
-            this.showModal = false; 
+            this.showModal = false;
             this.updateIndexes();
         } else {
             console.log('Phone to delete -> ' + oldPhoneNumber);
@@ -502,9 +502,9 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
                     if (data?.result?.IPResult?.statuscode == 200) {
                         this.mostrarToast(data.result.IPResult.message, 'success');
                         this.contIndex.splice(phoneIndex - 1, 1);
-                        this.showModal = false; 
+                        this.showModal = false;
                         this.updateIndexes();
-                        const phoneIndexToDelete = phoneIndex; 
+                        const phoneIndexToDelete = phoneIndex;
 
                     } else if (data?.result?.IPResult?.result?.statuscode == 400) {
                         console.log("statuscode " + data?.result?.IPResult?.result?.statuscode);
@@ -524,7 +524,7 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
                         this.mostrarToast('O telefone não houve alteração.', 'Error');
                     }
 
-                    
+
                 }).catch((error) => {
                     console.error(error);
                 });
@@ -613,13 +613,13 @@ export default class Every_Lwc_CriaAtualizaDeletaContato extends OmniscriptBaseM
                     const changedEmailFields = this.getChangedEmailFields();
                     console.log("changedEmailFields", JSON.stringify(changedEmailFields));
                     this.updateEmailErrors(changedEmailFields);
-                    this.obj = { ...this.copiaOBJ};
-                }else if (data?.result?.IPResult?.result?.statuscode == 400 ||
+                    this.obj = { ...this.copiaOBJ };
+                } else if (data?.result?.IPResult?.result?.statuscode == 400 ||
                     data?.result?.IPResult?.result?.statuscode == 404 ||
                     data?.result?.IPResult?.result?.statuscode == 409) {
-                        console.log("statuscode " + data.result.IPResult.result.statuscode);
-                        this.showModal3 = false;
-                        this.mostrarToast(data.result.IPResult.result.message, 'Error');
+                    console.log("statuscode " + data.result.IPResult.result.statuscode);
+                    this.showModal3 = false;
+                    this.mostrarToast(data.result.IPResult.result.message, 'Error');
                 } else {
                     this.showModal3 = false;
                     this.mostrarToast('O e-mail não houve alteração.', 'Error');

@@ -4,6 +4,7 @@
     "**/bower_components": true,
     "**/.sfdx": true
   },
+  "salesforcedx-vscode-core.push-or-deploy-on-save.enabled": false,
   "vlocity.sfdxUsername": "diego.viana@desktop.com.br.partial",
   "vlocity.projectPath": "c:\\DESKTOP\\Desk2025\\vlocity"
 }
